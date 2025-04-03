@@ -1,47 +1,62 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="app">
+    <h1>Gestor de Nombres</h1>
+    <div>
+      <input v-model="newName" placeholder="Escribe un nombre" />
+      <button @click="addName">Agregar</button>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <ul>
+      <li v-for="(name, index) in names" :key="index">
+        <input type="radio" :value="index" v-model="selectedIndex" />
+        {{ name }}
+      </li>
+    </ul>
+    <button @click="removeName" :disabled="selectedIndex === null">Eliminar Seleccionado</button>
+  </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      newName: "",
+      names: [],
+      selectedIndex: null,
+    };
+  },
+  methods: {
+    addName() {
+      if (this.newName.trim()) {
+        this.names.push(this.newName.trim());
+        this.newName = ""; // Limpiar el input
+      }
+    },
+    removeName() {
+      if (this.selectedIndex !== null) {
+        this.names.splice(this.selectedIndex, 1);
+        this.selectedIndex = null; // Reiniciar selección
+      }
+    },
+  },
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+.app {
+  font-family: Arial, sans-serif;
+  padding: 20px;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+input {
+  margin-right: 10px;
 }
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+button {
+  margin-top: 10px;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  margin: 5px 0;
 }
 </style>
