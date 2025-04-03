@@ -54,7 +54,7 @@ button {
 }
 ul {
   list-style-type: none;
-  padding: 0;
+  padding: 3;
 }
 li {
   margin: 5px 0;
